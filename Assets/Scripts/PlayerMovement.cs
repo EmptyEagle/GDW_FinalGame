@@ -20,7 +20,8 @@ public class PlayerMovement : MonoBehaviour
     };
     private float movementXMagnitude = 1.1f;
     private float movementXBounds = 2.2f;
-    private float movementYMagnitude = 1.5f;
+    private float movementYMagnitude = 2f;
+    public float gravityForce;
     private bool isGrounded;
     private SpawnManager spawnManager;
     private ScoreManager scoreManager;
@@ -70,6 +71,14 @@ public class PlayerMovement : MonoBehaviour
                 transform.Translate(Vector3.up * ((float)transform.position.y + movementYMagnitude));
                 isGrounded = false;
             }
+        }
+    }
+
+    void FixedUpdate()
+    {
+        if (!isGrounded)
+        {
+            GetComponent<Rigidbody>().AddForce(Vector3.down * gravityForce);
         }
     }
     
