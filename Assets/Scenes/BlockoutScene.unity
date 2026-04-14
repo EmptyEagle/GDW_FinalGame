@@ -491,6 +491,7 @@ MonoBehaviour:
   - {fileID: 5569788163653127656, guid: 96151eec18dd3ae808761f5d4bed81e1, type: 3}
   - {fileID: 2892013284561932860, guid: 210a7ec94350c0848ac81657f12c69cb, type: 3}
   - {fileID: 5632326081830124995, guid: 24155edbad7b3bd1fb6052f03f43e047, type: 3}
+  - {fileID: 1455559311899441247, guid: 202c44772411b594d8bad86953143b20, type: 3}
   laserSetPrefabs:
   - {fileID: 907688334394868091, guid: e9543ee182428e388aa08771a07e4942, type: 3}
   - {fileID: 907688334394868091, guid: f8dc0357d311cec8c8e9ededd7417494, type: 3}
@@ -1055,13 +1056,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1677456182}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.6427876, y: 0, z: 0, w: 0.7660445}
-  m_LocalPosition: {x: 0, y: 10, z: -7}
+  m_LocalRotation: {x: 0.5735764, y: 0, z: 0, w: 0.8191521}
+  m_LocalPosition: {x: 0, y: 10, z: -8.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 80, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 70, y: 0, z: 0}
 --- !u!114 &1677456186
 MonoBehaviour:
   m_ObjectHideFlags: 0

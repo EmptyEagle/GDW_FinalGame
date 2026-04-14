@@ -16,7 +16,7 @@ public class SpawnManager : MonoBehaviour
 
     void RollRandomWave()
     {
-        int waveType = Random.Range(0, 5);
+        int waveType = Random.Range(0, 6);
         SpawnWave(waveType);
         Debug.Log("Spawning wave type "+waveType);
     }
@@ -43,6 +43,10 @@ public class SpawnManager : MonoBehaviour
                 break;
             case 4:
                 obstaclePrefab = obstaclePrefabs[2];
+                Instantiate(obstaclePrefab, obstaclePrefab.transform.position, obstaclePrefab.transform.rotation);
+                break;
+            case 5:
+                obstaclePrefab = obstaclePrefabs[3];
                 Instantiate(obstaclePrefab, obstaclePrefab.transform.position, obstaclePrefab.transform.rotation);
                 break;
         }
