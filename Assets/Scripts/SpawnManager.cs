@@ -5,18 +5,68 @@ public class SpawnManager : MonoBehaviour
     public GameObject[] obstaclePrefabs;
     public GameObject[] laserSetPrefabs;
     private float[] spawnPositions = { -2.2f, -1.1f, 0f, 1.1f, 2.2f };
-    private float startDelay = 2f;
+    private float startDelay = 1.2f;
     private float waveRate = 2.5f;
+    private int waveNumber;
+    private int lastObstacle;
+    private int waveType;
     
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        waveNumber = 0;
+        lastObstacle = -1;
+        waveType = -1;
         InvokeRepeating("RollRandomWave", startDelay, waveRate);
     }
 
     void RollRandomWave()
     {
-        int waveType = Random.Range(0, 6);
+        while (waveType == lastObstacle || ((waveType == 7 || waveType == 8 || waveType == 10 || waveType == 11 || waveType == 12) && (lastObstacle == 0 || lastObstacle == 3 || lastObstacle == 6)))
+        {
+            if (waveNumber > 36)
+            {
+                waveType = Random.Range(9, 15);
+            }
+            // First button obstacle forced at wave 36
+            else if (waveNumber > 35)
+            {
+                waveType = Random.Range(14, 15);
+            }
+            else if (waveNumber > 31)
+            {
+                waveType = Random.Range(9, 14);
+            }
+            else if (waveNumber > 28)
+            {
+                waveType = Random.Range(6, 14);
+            }
+            else if (waveNumber > 21)
+            {
+                waveType = Random.Range(5, 11);
+            }
+            else if (waveNumber > 15)
+            {
+                waveType = Random.Range(2, 9);
+            }
+            else if (waveNumber > 12)
+            {
+                waveType = Random.Range(2, 7);
+            }
+            else if (waveNumber > 8)
+            {
+                waveType = Random.Range(2, 5);
+            }
+            else if (waveNumber > 3)
+            {
+                waveType = Random.Range(0, 4);
+            }
+            else
+            {
+                waveType = Random.Range(0, 3);
+            }
+        }
+        lastObstacle = waveType;
         SpawnWave(waveType);
         Debug.Log("Spawning wave type "+waveType);
     }
@@ -28,18 +78,18 @@ public class SpawnManager : MonoBehaviour
         switch (waveType)
         {
             case 0:
-                SpawnLaserSequence(0);
-                break;
-            case 1:
-                SpawnLaserSequence(1);
-                break;
-            case 2:
                 obstaclePrefab = obstaclePrefabs[0];
                 Instantiate(obstaclePrefab, obstaclePrefab.transform.position, obstaclePrefab.transform.rotation);
                 break;
-            case 3:
+            case 1:
                 obstaclePrefab = obstaclePrefabs[1];
                 Instantiate(obstaclePrefab, obstaclePrefab.transform.position, obstaclePrefab.transform.rotation);
+                break;
+            case 2:
+                SpawnLaserSequence(0);
+                break;
+            case 3:
+                SpawnLaserSequence(2);
                 break;
             case 4:
                 obstaclePrefab = obstaclePrefabs[2];
@@ -49,13 +99,50 @@ public class SpawnManager : MonoBehaviour
                 obstaclePrefab = obstaclePrefabs[3];
                 Instantiate(obstaclePrefab, obstaclePrefab.transform.position, obstaclePrefab.transform.rotation);
                 break;
+            case 6:
+                SpawnLaserSequence(1);
+                break;
+            case 7:
+                obstaclePrefab = obstaclePrefabs[4];
+                Instantiate(obstaclePrefab, obstaclePrefab.transform.position, obstaclePrefab.transform.rotation);
+                break;
+            case 8:
+                obstaclePrefab = obstaclePrefabs[5];
+                Instantiate(obstaclePrefab, obstaclePrefab.transform.position, obstaclePrefab.transform.rotation);
+                break;
+            case 9:
+                obstaclePrefab = obstaclePrefabs[6];
+                Instantiate(obstaclePrefab, obstaclePrefab.transform.position, obstaclePrefab.transform.rotation);
+                break;
+            case 10:
+                obstaclePrefab = obstaclePrefabs[7];
+                Instantiate(obstaclePrefab, obstaclePrefab.transform.position, obstaclePrefab.transform.rotation);
+                break;
+            case 11:
+                obstaclePrefab = obstaclePrefabs[8];
+                Instantiate(obstaclePrefab, obstaclePrefab.transform.position, obstaclePrefab.transform.rotation);
+                break;
+            case 12:
+                obstaclePrefab = obstaclePrefabs[9];
+                Instantiate(obstaclePrefab, obstaclePrefab.transform.position, obstaclePrefab.transform.rotation);
+                break;
+            case 13:
+                obstaclePrefab = obstaclePrefabs[10];
+                Instantiate(obstaclePrefab, obstaclePrefab.transform.position, obstaclePrefab.transform.rotation);
+                break;
+            case 14:
+                obstaclePrefab = obstaclePrefabs[11];
+                Instantiate(obstaclePrefab, obstaclePrefab.transform.position, obstaclePrefab.transform.rotation);
+                break;
         }
+        waveNumber++;
     }
 
     void SpawnLaserSequence(int laserType)
     {
         float zOffset;
         int gapPosition;
+        GameObject laserPrefab;
 
         // Normal laser sequence
         if (laserType == 0)
@@ -64,7 +151,7 @@ public class SpawnManager : MonoBehaviour
             gapPosition = Random.Range(0, 5);
             for (int i = 0; i < Random.Range(2, 5); i++)
             {
-                GameObject laserPrefab = laserSetPrefabs[gapPosition];
+                laserPrefab = laserSetPrefabs[gapPosition];
                 Instantiate(laserPrefab, new Vector3(laserPrefab.transform.position.x, laserPrefab.transform.position.y, laserPrefab.transform.position.z - zOffset), laserPrefab.transform.rotation);
                 zOffset += 3.5f;
                 gapPosition = Random.Range(gapPosition - 2, gapPosition + 2);
@@ -85,7 +172,34 @@ public class SpawnManager : MonoBehaviour
             gapPosition = Random.Range(0, 5);
             for (int i = 0; i < Random.Range(2, 5); i++)
             {
-                GameObject laserPrefab = laserSetPrefabs[gapPosition + 5];
+                laserPrefab = laserSetPrefabs[gapPosition + 5];
+                Instantiate(laserPrefab, new Vector3(laserPrefab.transform.position.x, laserPrefab.transform.position.y, laserPrefab.transform.position.z - zOffset), laserPrefab.transform.rotation);
+                zOffset += 5;
+                gapPosition = Random.Range(gapPosition - 2, gapPosition + 2);
+                while (gapPosition > 4)
+                {
+                    gapPosition = Random.Range(2, 5);
+                }
+                while (gapPosition < 0)
+                {
+                    gapPosition = Random.Range(0, 3);
+                }
+            }
+        }
+        else if (laserType == 2)
+        {
+            zOffset = 0;
+            gapPosition = Random.Range(0, 5);
+            for (int i = 0; i < Random.Range(2, 5); i++)
+            {
+                if (Random.Range(0, 2) == 0)
+                {
+                    laserPrefab = laserSetPrefabs[gapPosition];
+                }
+                else
+                {
+                    laserPrefab = laserSetPrefabs[gapPosition + 5];
+                }
                 Instantiate(laserPrefab, new Vector3(laserPrefab.transform.position.x, laserPrefab.transform.position.y, laserPrefab.transform.position.z - zOffset), laserPrefab.transform.rotation);
                 zOffset += 5;
                 gapPosition = Random.Range(gapPosition - 2, gapPosition + 2);

@@ -17,7 +17,7 @@ public class ObstacleScroll : MonoBehaviour
         {
             transform.Translate(Vector3.forward * scrollSpeed * Time.deltaTime);
         }
-        if (transform.position.z > 10)
+        if (transform.position.z > 25)
         {
             Destroy(gameObject);
         }

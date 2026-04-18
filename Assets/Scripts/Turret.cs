@@ -7,7 +7,6 @@ public class Turret : MonoBehaviour
     public float fireDelay;
     private bool canFire;
     private GameObject player;
-    private float forwardSpeed = 10f;
     private ScoreManager scoreManager;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -20,16 +19,6 @@ public class Turret : MonoBehaviour
 
     void Update()
     {
-        if (!scoreManager.IsGameOver())
-        {
-            transform.Translate(Vector3.forward * forwardSpeed * Time.deltaTime, Space.World);
-        }
-        if (transform.position.z > 10)
-        {
-            Destroy(gameObject);
-        }
-        
-        
         // Continuously rotate turret toward player
         if (player != null)
         {
@@ -39,7 +28,7 @@ public class Turret : MonoBehaviour
         }
         
         // Fire until turret gets too close
-        if (canFire && transform.position.z < -5)
+        if (canFire && transform.position.z < -5 && !scoreManager.IsGameOver())
         {
             StartCoroutine("FireAtPlayer");
         }

@@ -166,7 +166,8 @@ PrefabInstance:
       value: Laser
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 3944651891651610862, guid: f786f84091dcacedf8d9696390a88742, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f786f84091dcacedf8d9696390a88742, type: 3}
@@ -228,7 +229,8 @@ PrefabInstance:
       value: Laser
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 3944651891651610862, guid: f786f84091dcacedf8d9696390a88742, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f786f84091dcacedf8d9696390a88742, type: 3}
@@ -290,7 +292,8 @@ PrefabInstance:
       value: Laser
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 3944651891651610862, guid: f786f84091dcacedf8d9696390a88742, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f786f84091dcacedf8d9696390a88742, type: 3}
@@ -352,7 +355,8 @@ PrefabInstance:
       value: Laser
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 3944651891651610862, guid: f786f84091dcacedf8d9696390a88742, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f786f84091dcacedf8d9696390a88742, type: 3}
