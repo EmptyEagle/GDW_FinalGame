@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -23,6 +24,8 @@ public class PlayerMovement : MonoBehaviour
     private float movementYMagnitude = 2f;
     public float gravityForce;
     private bool isGrounded;
+    private float jumpInputBufferMax = 1f;
+    private float jumpInputBuffer;
     private SpawnManager spawnManager;
     private ScoreManager scoreManager;
     
@@ -32,6 +35,7 @@ public class PlayerMovement : MonoBehaviour
         isGrounded = true;
         spawnManager = GameObject.Find("SpawnManager").GetComponent<SpawnManager>();
         scoreManager = GameObject.Find("ScoreManager").GetComponent<ScoreManager>();
+        InvokeRepeating("DecrementJumpBuffer", 0, 0.2f);
     }
 
     // Update is called once per frame
@@ -66,10 +70,9 @@ public class PlayerMovement : MonoBehaviour
 
         foreach (KeyCode key in keys_Jump)
         {
-            if (Input.GetKeyDown(key) && isGrounded)
+            if (Input.GetKeyDown(key))
             {
-                transform.Translate(Vector3.up * ((float)transform.position.y + movementYMagnitude));
-                isGrounded = false;
+                StartCoroutine(JumpBufferCheck());
             }
         }
     }
@@ -100,6 +103,33 @@ public class PlayerMovement : MonoBehaviour
             scoreManager.SetGameOver();
             spawnManager.StopWaveSpawning();
             Destroy(gameObject);
+        }
+    }
+
+    void DecrementJumpBuffer()
+    {
+        if (jumpInputBuffer > 0)
+        {
+            jumpInputBuffer--;
+        }
+    }
+    
+    IEnumerator JumpBufferCheck()
+    {
+        if (isGrounded)
+        {
+            transform.Translate(Vector3.up * ((float)transform.position.y + movementYMagnitude));
+            isGrounded = false;
+        }
+        else
+        {
+            jumpInputBuffer = jumpInputBufferMax;
+            yield return new WaitUntil(() => isGrounded);
+            if (jumpInputBuffer > 0)
+            {
+                transform.Translate(Vector3.up * ((float)transform.position.y + movementYMagnitude));
+                isGrounded = false;
+            }
         }
     }
 }

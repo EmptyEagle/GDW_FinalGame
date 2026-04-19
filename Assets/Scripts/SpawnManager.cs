@@ -22,24 +22,29 @@ public class SpawnManager : MonoBehaviour
 
     void RollRandomWave()
     {
-        while (waveType == lastObstacle || ((waveType == 7 || waveType == 8 || waveType == 10 || waveType == 11 || waveType == 12) && (lastObstacle == 0 || lastObstacle == 3 || lastObstacle == 6)))
+        // Second comparison ensures turrets cannot spawn after a laser sequence
+        while (waveType == lastObstacle || ((waveType == 7 || waveType == 8 || waveType == 9 || waveType == 10 || waveType == 11 || waveType == 12) && (lastObstacle == 0 || lastObstacle == 3 || lastObstacle == 6)))
         {
-            if (waveNumber > 36)
+            if (waveNumber > 44)
             {
-                waveType = Random.Range(9, 15);
+                waveType = Random.Range(9, 19);
             }
-            // First button obstacle forced at wave 36
-            else if (waveNumber > 35)
+            else if (waveNumber > 36)
             {
-                waveType = Random.Range(14, 15);
+                waveType = Random.Range(9, 18);
             }
             else if (waveNumber > 31)
             {
-                waveType = Random.Range(9, 14);
+                waveType = Random.Range(9, 16);
             }
             else if (waveNumber > 28)
             {
                 waveType = Random.Range(6, 14);
+            }
+            // First button obstacle forced at wave 28
+            else if (waveNumber > 27)
+            {
+                waveType = Random.Range(14, 16);
             }
             else if (waveNumber > 21)
             {
@@ -68,7 +73,7 @@ public class SpawnManager : MonoBehaviour
         }
         lastObstacle = waveType;
         SpawnWave(waveType);
-        Debug.Log("Spawning wave type "+waveType);
+        //Debug.Log("Spawning wave type "+waveType);
     }
 
     void SpawnWave(int waveType)
@@ -132,6 +137,22 @@ public class SpawnManager : MonoBehaviour
                 break;
             case 14:
                 obstaclePrefab = obstaclePrefabs[11];
+                Instantiate(obstaclePrefab, obstaclePrefab.transform.position, obstaclePrefab.transform.rotation);
+                break;
+            case 15:
+                obstaclePrefab = obstaclePrefabs[12];
+                Instantiate(obstaclePrefab, obstaclePrefab.transform.position, obstaclePrefab.transform.rotation);
+                break;
+            case 16:
+                obstaclePrefab = obstaclePrefabs[13];
+                Instantiate(obstaclePrefab, obstaclePrefab.transform.position, obstaclePrefab.transform.rotation);
+                break;
+            case 17:
+                obstaclePrefab = obstaclePrefabs[14];
+                Instantiate(obstaclePrefab, obstaclePrefab.transform.position, obstaclePrefab.transform.rotation);
+                break;
+            case 18:
+                obstaclePrefab = obstaclePrefabs[15];
                 Instantiate(obstaclePrefab, obstaclePrefab.transform.position, obstaclePrefab.transform.rotation);
                 break;
         }
