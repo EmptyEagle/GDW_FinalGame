@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -28,10 +29,12 @@ public class PlayerMovement : MonoBehaviour
     private float jumpInputBuffer;
     private SpawnManager spawnManager;
     private ScoreManager scoreManager;
+    public GameObject gameOverMenu;
     
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        gameOverMenu.SetActive(false);
         isGrounded = true;
         spawnManager = GameObject.Find("SpawnManager").GetComponent<SpawnManager>();
         scoreManager = GameObject.Find("ScoreManager").GetComponent<ScoreManager>();
@@ -42,19 +45,30 @@ public class PlayerMovement : MonoBehaviour
     void Update()
     {
         // Player horizontal movement
-        foreach (KeyCode key in keys_MoveLeft)
+        if (!scoreManager.IsPaused())
         {
-            if (Input.GetKeyDown(key))
+            foreach (KeyCode key in keys_MoveLeft)
             {
-                transform.Translate(Vector3.left * movementXMagnitude);
+                if (Input.GetKeyDown(key))
+                {
+                    transform.Translate(Vector3.left * movementXMagnitude);
+                }
             }
-        }
 
-        foreach (KeyCode key in keys_MoveRight)
-        {
-            if (Input.GetKeyDown(key))
+            foreach (KeyCode key in keys_MoveRight)
             {
-                transform.Translate(Vector3.right * movementXMagnitude);
+                if (Input.GetKeyDown(key))
+                {
+                    transform.Translate(Vector3.right * movementXMagnitude);
+                }
+            }
+            
+            foreach (KeyCode key in keys_Jump)
+            {
+                if (Input.GetKeyDown(key))
+                {
+                    StartCoroutine(JumpBufferCheck());
+                }
             }
         }
         
@@ -66,14 +80,6 @@ public class PlayerMovement : MonoBehaviour
         else if (transform.position.x > movementXBounds)
         {
             transform.position = new Vector3(movementXBounds, transform.position.y, transform.position.z);
-        }
-
-        foreach (KeyCode key in keys_Jump)
-        {
-            if (Input.GetKeyDown(key))
-            {
-                StartCoroutine(JumpBufferCheck());
-            }
         }
     }
 
@@ -102,6 +108,7 @@ public class PlayerMovement : MonoBehaviour
             Debug.Log("Lose game!");
             scoreManager.SetGameOver();
             spawnManager.StopWaveSpawning();
+            gameOverMenu.SetActive(true);
             Destroy(gameObject);
         }
     }

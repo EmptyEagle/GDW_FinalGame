@@ -25,11 +25,11 @@ public class SpawnManager : MonoBehaviour
         // Second comparison ensures turrets cannot spawn after a laser sequence
         while (waveType == lastObstacle || ((waveType == 7 || waveType == 8 || waveType == 9 || waveType == 10 || waveType == 11 || waveType == 12) && (lastObstacle == 0 || lastObstacle == 3 || lastObstacle == 6)))
         {
-            if (waveNumber > 44)
+            if (waveNumber > 42)
             {
                 waveType = Random.Range(9, 19);
             }
-            else if (waveNumber > 36)
+            else if (waveNumber > 34)
             {
                 waveType = Random.Range(9, 18);
             }
