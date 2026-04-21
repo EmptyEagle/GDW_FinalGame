@@ -25,9 +25,13 @@ public class SpawnManager : MonoBehaviour
         // Second comparison ensures turrets cannot spawn after a laser sequence
         while (waveType == lastObstacle || ((waveType == 7 || waveType == 8 || waveType == 9 || waveType == 10 || waveType == 11 || waveType == 12) && (lastObstacle == 0 || lastObstacle == 3 || lastObstacle == 6)))
         {
+            if (waveNumber > 53)
+            {
+                waveType = Random.Range(9, 21);
+            }
             if (waveNumber > 42)
             {
-                waveType = Random.Range(9, 19);
+                waveType = Random.Range(9, 20);
             }
             else if (waveNumber > 34)
             {
@@ -155,6 +159,12 @@ public class SpawnManager : MonoBehaviour
                 obstaclePrefab = obstaclePrefabs[15];
                 Instantiate(obstaclePrefab, obstaclePrefab.transform.position, obstaclePrefab.transform.rotation);
                 break;
+            case 19:
+                SpawnLaserSequence(3);
+                break;
+            case 20:
+                SpawnLaserSequence(4);
+                break;
         }
         waveNumber++;
     }
@@ -207,6 +217,7 @@ public class SpawnManager : MonoBehaviour
                 }
             }
         }
+        // Laser sequence randomly spawning either fire jets or not per spawn
         else if (laserType == 2)
         {
             zOffset = 0;
@@ -220,6 +231,54 @@ public class SpawnManager : MonoBehaviour
                 else
                 {
                     laserPrefab = laserSetPrefabs[gapPosition + 5];
+                }
+                Instantiate(laserPrefab, new Vector3(laserPrefab.transform.position.x, laserPrefab.transform.position.y, laserPrefab.transform.position.z - zOffset), laserPrefab.transform.rotation);
+                zOffset += 5;
+                gapPosition = Random.Range(gapPosition - 2, gapPosition + 2);
+                while (gapPosition > 4)
+                {
+                    gapPosition = Random.Range(2, 5);
+                }
+                while (gapPosition < 0)
+                {
+                    gapPosition = Random.Range(0, 3);
+                }
+            }
+        }
+        // Fire sequence with ceiling fire
+        else if (laserType == 3)
+        {
+            zOffset = 0;
+            gapPosition = Random.Range(0, 5);
+            for (int i = 0; i < Random.Range(2, 5); i++)
+            {
+                laserPrefab = laserSetPrefabs[gapPosition + 10];
+                Instantiate(laserPrefab, new Vector3(laserPrefab.transform.position.x, laserPrefab.transform.position.y, laserPrefab.transform.position.z - zOffset), laserPrefab.transform.rotation);
+                zOffset += 5;
+                gapPosition = Random.Range(gapPosition - 2, gapPosition + 2);
+                while (gapPosition > 4)
+                {
+                    gapPosition = Random.Range(2, 5);
+                }
+                while (gapPosition < 0)
+                {
+                    gapPosition = Random.Range(0, 3);
+                }
+            }
+        }
+        else if (laserType == 4)
+        {
+            zOffset = 0;
+            gapPosition = Random.Range(0, 5);
+            for (int i = 0; i < Random.Range(2, 5); i++)
+            {
+                if (Random.Range(0, 2) == 0)
+                {
+                    laserPrefab = laserSetPrefabs[gapPosition + 5];
+                }
+                else
+                {
+                    laserPrefab = laserSetPrefabs[gapPosition + 10];
                 }
                 Instantiate(laserPrefab, new Vector3(laserPrefab.transform.position.x, laserPrefab.transform.position.y, laserPrefab.transform.position.z - zOffset), laserPrefab.transform.rotation);
                 zOffset += 5;

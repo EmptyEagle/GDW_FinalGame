@@ -113,6 +113,14 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject.CompareTag("GrazeZone"))
+        {
+            Debug.Log("Graze");
+        }
+    }
+
     void DecrementJumpBuffer()
     {
         if (jumpInputBuffer > 0)

@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Obstacle
   - Ground
+  - GrazeZone
   layers:
   - Default
   - TransparentFX
