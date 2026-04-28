@@ -421,7 +421,7 @@ Transform:
   m_GameObject: {fileID: 259021291}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0.007}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1448,7 +1448,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 572118283267590263, guid: fc8ce81b8bb4c0c158f75538d37acf67, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 572118283267590263, guid: fc8ce81b8bb4c0c158f75538d37acf67, type: 3}
       propertyPath: m_LocalPosition.z
@@ -1491,20 +1491,36 @@ PrefabInstance:
       value: Player
       objectReference: {fileID: 0}
     - target: {fileID: 8328790467632387456, guid: fc8ce81b8bb4c0c158f75538d37acf67, type: 3}
+      propertyPath: jumpSprite
+      value: 
+      objectReference: {fileID: 21300000, guid: e80e3873a45b7830babe982954bb9fbb, type: 3}
+    - target: {fileID: 8328790467632387456, guid: fc8ce81b8bb4c0c158f75538d37acf67, type: 3}
       propertyPath: gameOverMenu
       value: 
       objectReference: {fileID: 21240580}
+    - target: {fileID: 8328790467632387456, guid: fc8ce81b8bb4c0c158f75538d37acf67, type: 3}
+      propertyPath: loopSprites.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8328790467632387456, guid: fc8ce81b8bb4c0c158f75538d37acf67, type: 3}
+      propertyPath: 'loopSprites.Array.data[0]'
+      value: 
+      objectReference: {fileID: 21300000, guid: 438a4598944f348269f89f2e97be8905, type: 3}
+    - target: {fileID: 8328790467632387456, guid: fc8ce81b8bb4c0c158f75538d37acf67, type: 3}
+      propertyPath: 'loopSprites.Array.data[1]'
+      value: 
+      objectReference: {fileID: 21300000, guid: 0ad82e103c83926b1aa7de6714ae1cbb, type: 3}
     - target: {fileID: 8601900713500930517, guid: fc8ce81b8bb4c0c158f75538d37acf67, type: 3}
       propertyPath: m_Color.b
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8601900713500930517, guid: fc8ce81b8bb4c0c158f75538d37acf67, type: 3}
       propertyPath: m_Color.g
-      value: 0.68610233
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8601900713500930517, guid: fc8ce81b8bb4c0c158f75538d37acf67, type: 3}
       propertyPath: m_Color.r
-      value: 0.6682382
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8601900713500930517, guid: fc8ce81b8bb4c0c158f75538d37acf67, type: 3}
       propertyPath: m_SortingOrder
@@ -2551,13 +2567,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1677456182}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.6427876, y: 0, z: 0, w: 0.7660445}
-  m_LocalPosition: {x: 0, y: 10, z: -8.5}
+  m_LocalRotation: {x: 0.60876137, y: 0, z: 0, w: 0.7933534}
+  m_LocalPosition: {x: 0, y: 9, z: -6}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 80, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 75, y: 0, z: 0}
 --- !u!114 &1677456186
 MonoBehaviour:
   m_ObjectHideFlags: 0

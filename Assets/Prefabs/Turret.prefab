@@ -47,6 +47,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   projectilePrefab: {fileID: 2509347808020034943, guid: 4626352fc59c1944fa0e50852a9a0aad, type: 3}
   fireDelay: 1.5
+  idleSprite: {fileID: 21300000, guid: bc0d865091b103b4dbaa0ff285260416, type: 3}
+  fireSprite: {fileID: 21300000, guid: 5794a18c7f048d7b58c2937568f9d9ac, type: 3}
 --- !u!1 &5206652187278126848
 GameObject:
   m_ObjectHideFlags: 0

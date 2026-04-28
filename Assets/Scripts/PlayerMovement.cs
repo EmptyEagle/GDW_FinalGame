@@ -22,7 +22,7 @@ public class PlayerMovement : MonoBehaviour
     };
     private float movementXMagnitude = 1.1f;
     private float movementXBounds = 2.2f;
-    private float movementYMagnitude = 2f;
+    private float movementYMagnitude = 1f;
     public float gravityForce;
     private bool isGrounded;
     private float jumpInputBufferMax = 1f;
@@ -30,15 +30,20 @@ public class PlayerMovement : MonoBehaviour
     private SpawnManager spawnManager;
     private ScoreManager scoreManager;
     public GameObject gameOverMenu;
+    public Sprite[] loopSprites;
+    public Sprite jumpSprite;
+    private SpriteRenderer spriteRend;
     
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        spriteRend = GetComponent<SpriteRenderer>();
         gameOverMenu.SetActive(false);
         isGrounded = true;
         spawnManager = GameObject.Find("SpawnManager").GetComponent<SpawnManager>();
         scoreManager = GameObject.Find("ScoreManager").GetComponent<ScoreManager>();
         InvokeRepeating("DecrementJumpBuffer", 0, 0.2f);
+        InvokeRepeating("AnimatePlayer", 0f, 0.15f);
     }
 
     // Update is called once per frame
@@ -83,6 +88,26 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    private void AnimatePlayer()
+    {
+        if (isGrounded)
+        {
+            if (spriteRend.sprite == loopSprites[0])
+            {
+                spriteRend.sprite = loopSprites[1];
+            }
+            else
+            {
+                spriteRend.sprite = loopSprites[0];
+            }
+
+            if (Random.Range(0, 3) == 0)
+            {
+                spriteRend.flipX = !spriteRend.flipX;
+            }
+        }
+    }
+
     void FixedUpdate()
     {
         if (!isGrounded)
@@ -97,6 +122,7 @@ public class PlayerMovement : MonoBehaviour
         {
             // The player falls to the ground
             isGrounded = true;
+            spriteRend.sprite = loopSprites[0];
         }
     }
 
@@ -105,7 +131,6 @@ public class PlayerMovement : MonoBehaviour
         if (other.gameObject.CompareTag("Obstacle"))
         {
             // What happens when the game is lost
-            Debug.Log("Lose game!");
             scoreManager.SetGameOver();
             spawnManager.StopWaveSpawning();
             gameOverMenu.SetActive(true);
@@ -117,7 +142,7 @@ public class PlayerMovement : MonoBehaviour
     {
         if (other.gameObject.CompareTag("GrazeZone"))
         {
-            Debug.Log("Graze");
+            scoreManager.StartGraze();
         }
     }
 
@@ -135,6 +160,7 @@ public class PlayerMovement : MonoBehaviour
         {
             transform.Translate(Vector3.up * ((float)transform.position.y + movementYMagnitude));
             isGrounded = false;
+            spriteRend.sprite = jumpSprite;
         }
         else
         {
@@ -144,6 +170,7 @@ public class PlayerMovement : MonoBehaviour
             {
                 transform.Translate(Vector3.up * ((float)transform.position.y + movementYMagnitude));
                 isGrounded = false;
+                spriteRend.sprite = jumpSprite;
             }
         }
     }

@@ -1,5 +1,6 @@
 using UnityEngine;
 using TMPro;
+using System.Collections;
 
 public class ScoreManager : MonoBehaviour
 {
@@ -36,6 +37,21 @@ public class ScoreManager : MonoBehaviour
     {
         score += scoreToAdd;
         scoreText.text = "Score: " + score;
+    }
+
+    public void StartGraze()
+    {
+        StartCoroutine("GrazeTick");
+    }
+
+    IEnumerator GrazeTick()
+    {
+        // Each graze instance increments score by a total of 5
+        for (int i = 0; i < 5; i++)
+        {
+            AddScore(1);
+            yield return new WaitForSeconds(0.1f);
+        }
     }
 
     public void SetGameOver()

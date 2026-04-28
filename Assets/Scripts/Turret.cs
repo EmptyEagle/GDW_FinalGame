@@ -8,10 +8,14 @@ public class Turret : MonoBehaviour
     private bool canFire;
     private GameObject player;
     private ScoreManager scoreManager;
+    public Sprite idleSprite;
+    public Sprite fireSprite;
+    private SpriteRenderer spriteRend;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        spriteRend = GetComponentInChildren<SpriteRenderer>();
         player = GameObject.Find("Player");
         canFire = true;
         scoreManager = GameObject.Find("ScoreManager").GetComponent<ScoreManager>();
@@ -39,9 +43,17 @@ public class Turret : MonoBehaviour
         canFire = false;
 
         // Fire a projectile at the player
+        StartCoroutine("FireVisual");
         Instantiate(projectilePrefab, transform.position, transform.rotation);
         yield return new WaitForSeconds(fireDelay);
 
         canFire = true;
+    }
+
+    IEnumerator FireVisual()
+    {
+        spriteRend.sprite = fireSprite;
+        yield return new WaitForSeconds(0.25f);
+        spriteRend.sprite = idleSprite;
     }
 }

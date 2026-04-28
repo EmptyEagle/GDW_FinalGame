@@ -23,36 +23,36 @@ public class SpawnManager : MonoBehaviour
     void RollRandomWave()
     {
         // Second comparison ensures turrets cannot spawn after a laser sequence
-        while (waveType == lastObstacle || ((waveType == 7 || waveType == 8 || waveType == 9 || waveType == 10 || waveType == 11 || waveType == 12) && (lastObstacle == 0 || lastObstacle == 3 || lastObstacle == 6)))
+        while (waveType == lastObstacle || ((waveType == 7 || waveType == 8 || waveType == 10 || waveType == 11 || waveType == 12 || waveType == 13) && (lastObstacle == 0 || lastObstacle == 3 || lastObstacle == 6 || lastObstacle == 9)))
         {
             if (waveNumber > 53)
             {
-                waveType = Random.Range(9, 21);
+                waveType = Random.Range(11, 22);
             }
             if (waveNumber > 42)
             {
-                waveType = Random.Range(9, 20);
+                waveType = Random.Range(9, 21);
             }
             else if (waveNumber > 34)
             {
-                waveType = Random.Range(9, 18);
+                waveType = Random.Range(9, 19);
             }
             else if (waveNumber > 31)
             {
-                waveType = Random.Range(9, 16);
+                waveType = Random.Range(9, 17);
             }
             else if (waveNumber > 28)
             {
-                waveType = Random.Range(6, 14);
+                waveType = Random.Range(6, 15);
             }
             // First button obstacle forced at wave 28
             else if (waveNumber > 27)
             {
-                waveType = Random.Range(14, 16);
+                waveType = Random.Range(15, 17);
             }
             else if (waveNumber > 21)
             {
-                waveType = Random.Range(5, 11);
+                waveType = Random.Range(5, 12);
             }
             else if (waveNumber > 15)
             {
@@ -120,49 +120,52 @@ public class SpawnManager : MonoBehaviour
                 Instantiate(obstaclePrefab, obstaclePrefab.transform.position, obstaclePrefab.transform.rotation);
                 break;
             case 9:
+                SpawnLaserSequence(1);
+                break;
+            case 10:
                 obstaclePrefab = obstaclePrefabs[6];
                 Instantiate(obstaclePrefab, obstaclePrefab.transform.position, obstaclePrefab.transform.rotation);
                 break;
-            case 10:
+            case 11:
                 obstaclePrefab = obstaclePrefabs[7];
                 Instantiate(obstaclePrefab, obstaclePrefab.transform.position, obstaclePrefab.transform.rotation);
                 break;
-            case 11:
+            case 12:
                 obstaclePrefab = obstaclePrefabs[8];
                 Instantiate(obstaclePrefab, obstaclePrefab.transform.position, obstaclePrefab.transform.rotation);
                 break;
-            case 12:
+            case 13:
                 obstaclePrefab = obstaclePrefabs[9];
                 Instantiate(obstaclePrefab, obstaclePrefab.transform.position, obstaclePrefab.transform.rotation);
                 break;
-            case 13:
+            case 14:
                 obstaclePrefab = obstaclePrefabs[10];
                 Instantiate(obstaclePrefab, obstaclePrefab.transform.position, obstaclePrefab.transform.rotation);
                 break;
-            case 14:
+            case 15:
                 obstaclePrefab = obstaclePrefabs[11];
                 Instantiate(obstaclePrefab, obstaclePrefab.transform.position, obstaclePrefab.transform.rotation);
                 break;
-            case 15:
+            case 16:
                 obstaclePrefab = obstaclePrefabs[12];
                 Instantiate(obstaclePrefab, obstaclePrefab.transform.position, obstaclePrefab.transform.rotation);
                 break;
-            case 16:
+            case 17:
                 obstaclePrefab = obstaclePrefabs[13];
                 Instantiate(obstaclePrefab, obstaclePrefab.transform.position, obstaclePrefab.transform.rotation);
                 break;
-            case 17:
+            case 18:
                 obstaclePrefab = obstaclePrefabs[14];
                 Instantiate(obstaclePrefab, obstaclePrefab.transform.position, obstaclePrefab.transform.rotation);
                 break;
-            case 18:
+            case 19:
                 obstaclePrefab = obstaclePrefabs[15];
                 Instantiate(obstaclePrefab, obstaclePrefab.transform.position, obstaclePrefab.transform.rotation);
                 break;
-            case 19:
+            case 20:
                 SpawnLaserSequence(3);
                 break;
-            case 20:
+            case 21:
                 SpawnLaserSequence(4);
                 break;
         }
@@ -184,7 +187,8 @@ public class SpawnManager : MonoBehaviour
             {
                 laserPrefab = laserSetPrefabs[gapPosition];
                 Instantiate(laserPrefab, new Vector3(laserPrefab.transform.position.x, laserPrefab.transform.position.y, laserPrefab.transform.position.z - zOffset), laserPrefab.transform.rotation);
-                zOffset += 3.5f;
+                // First wave (1) -> 5; Last wave (21) -> 3; Minimum gap (26) -> 2.5
+                zOffset += Mathf.Max(3.5f + (1.5f - (waveNumber - 1) / 10f), 2.5f);
                 gapPosition = Random.Range(gapPosition - 2, gapPosition + 2);
                 while (gapPosition > 4)
                 {
@@ -205,7 +209,8 @@ public class SpawnManager : MonoBehaviour
             {
                 laserPrefab = laserSetPrefabs[gapPosition + 5];
                 Instantiate(laserPrefab, new Vector3(laserPrefab.transform.position.x, laserPrefab.transform.position.y, laserPrefab.transform.position.z - zOffset), laserPrefab.transform.rotation);
-                zOffset += 5;
+                // First wave (13) -> 6.5; After first button (29) -> 4.9; Minimum gap (43) -> 3.5
+                zOffset += Mathf.Max(5f + (1.5f - (waveNumber - 13) / 10f), 3.5f);
                 gapPosition = Random.Range(gapPosition - 2, gapPosition + 2);
                 while (gapPosition > 4)
                 {
@@ -233,7 +238,8 @@ public class SpawnManager : MonoBehaviour
                     laserPrefab = laserSetPrefabs[gapPosition + 5];
                 }
                 Instantiate(laserPrefab, new Vector3(laserPrefab.transform.position.x, laserPrefab.transform.position.y, laserPrefab.transform.position.z - zOffset), laserPrefab.transform.rotation);
-                zOffset += 5;
+                // First wave (4) -> 6.5; Last wave (21) -> 4.375; Minimum gap (28) -> 3.5
+                zOffset += Mathf.Max(5f + (1.5f - (waveNumber - 4) / 8f), 3.5f);
                 gapPosition = Random.Range(gapPosition - 2, gapPosition + 2);
                 while (gapPosition > 4)
                 {
@@ -254,7 +260,8 @@ public class SpawnManager : MonoBehaviour
             {
                 laserPrefab = laserSetPrefabs[gapPosition + 10];
                 Instantiate(laserPrefab, new Vector3(laserPrefab.transform.position.x, laserPrefab.transform.position.y, laserPrefab.transform.position.z - zOffset), laserPrefab.transform.rotation);
-                zOffset += 5;
+                // First wave (54) -> 6.5; Minimum gap (102) -> 3.5
+                zOffset += Mathf.Max(5f + (1.5f - (waveNumber - 54) / 16f), 3.5f);
                 gapPosition = Random.Range(gapPosition - 2, gapPosition + 2);
                 while (gapPosition > 4)
                 {
@@ -266,6 +273,7 @@ public class SpawnManager : MonoBehaviour
                 }
             }
         }
+        // Laser sequence with chance of ceiling fire
         else if (laserType == 4)
         {
             zOffset = 0;
@@ -281,7 +289,8 @@ public class SpawnManager : MonoBehaviour
                     laserPrefab = laserSetPrefabs[gapPosition + 10];
                 }
                 Instantiate(laserPrefab, new Vector3(laserPrefab.transform.position.x, laserPrefab.transform.position.y, laserPrefab.transform.position.z - zOffset), laserPrefab.transform.rotation);
-                zOffset += 5;
+                // First wave (43) -> 6.5; Minimum gap (91) -> 3.5
+                zOffset += Mathf.Max(5f + (1.5f - (waveNumber - 43) / 16f), 3.5f);
                 gapPosition = Random.Range(gapPosition - 2, gapPosition + 2);
                 while (gapPosition > 4)
                 {
