@@ -4,10 +4,12 @@ public class ObstacleScroll : MonoBehaviour
 {
     public float scrollSpeed;
     private ScoreManager scoreManager;
+    private GameObject waveEndTrigger;
 
     void Start()
     {
         scoreManager = GameObject.Find("ScoreManager").GetComponent<ScoreManager>();
+        waveEndTrigger = transform.Find("WaveTrigger").gameObject;
     }
     
     // Update is called once per frame
@@ -21,5 +23,10 @@ public class ObstacleScroll : MonoBehaviour
         {
             Destroy(gameObject);
         }
+    }
+
+    public GameObject getWaveEndTrigger()
+    {
+        return waveEndTrigger;
     }
 }

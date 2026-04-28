@@ -1,3 +1,4 @@
+using System.Runtime.CompilerServices;
 using UnityEngine;
 
 public class SpawnManager : MonoBehaviour
@@ -10,10 +11,12 @@ public class SpawnManager : MonoBehaviour
     private int waveNumber;
     private int lastObstacle;
     private int waveType;
+    private ScoreManager scoreManager;
     
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        scoreManager = GameObject.Find("ScoreManager").GetComponent<ScoreManager>();
         waveNumber = 0;
         lastObstacle = -1;
         waveType = -1;
@@ -176,17 +179,25 @@ public class SpawnManager : MonoBehaviour
     {
         float zOffset;
         int gapPosition;
+        int sequenceLength;
         GameObject laserPrefab;
+        GameObject waveEndTrigger;
 
         // Normal laser sequence
         if (laserType == 0)
         {
             zOffset = 0;
             gapPosition = Random.Range(0, 5);
-            for (int i = 0; i < Random.Range(2, 5); i++)
+            sequenceLength = Random.Range(2, 5);
+            for (int i = 0; i < sequenceLength; i++)
             {
                 laserPrefab = laserSetPrefabs[gapPosition];
-                Instantiate(laserPrefab, new Vector3(laserPrefab.transform.position.x, laserPrefab.transform.position.y, laserPrefab.transform.position.z - zOffset), laserPrefab.transform.rotation);
+                GameObject currentSegment = Instantiate(laserPrefab, new Vector3(laserPrefab.transform.position.x, laserPrefab.transform.position.y, laserPrefab.transform.position.z - zOffset), laserPrefab.transform.rotation);
+                waveEndTrigger = currentSegment.transform.Find("WaveTrigger").gameObject;
+                if (i < sequenceLength - 1)
+                {
+                    waveEndTrigger.SetActive(false);
+                }
                 // First wave (1) -> 5; Last wave (21) -> 3; Minimum gap (26) -> 2.5
                 zOffset += Mathf.Max(3.5f + (1.5f - (waveNumber - 1) / 10f), 2.5f);
                 gapPosition = Random.Range(gapPosition - 2, gapPosition + 2);
@@ -205,10 +216,16 @@ public class SpawnManager : MonoBehaviour
         {
             zOffset = 0;
             gapPosition = Random.Range(0, 5);
-            for (int i = 0; i < Random.Range(2, 5); i++)
+            sequenceLength = Random.Range(2, 5);
+            for (int i = 0; i < sequenceLength; i++)
             {
                 laserPrefab = laserSetPrefabs[gapPosition + 5];
-                Instantiate(laserPrefab, new Vector3(laserPrefab.transform.position.x, laserPrefab.transform.position.y, laserPrefab.transform.position.z - zOffset), laserPrefab.transform.rotation);
+                GameObject currentSegment = Instantiate(laserPrefab, new Vector3(laserPrefab.transform.position.x, laserPrefab.transform.position.y, laserPrefab.transform.position.z - zOffset), laserPrefab.transform.rotation);
+                waveEndTrigger = currentSegment.transform.Find("WaveTrigger").gameObject;
+                if (i < sequenceLength - 1)
+                {
+                    waveEndTrigger.SetActive(false);
+                }
                 // First wave (13) -> 6.5; After first button (29) -> 4.9; Minimum gap (43) -> 3.5
                 zOffset += Mathf.Max(5f + (1.5f - (waveNumber - 13) / 10f), 3.5f);
                 gapPosition = Random.Range(gapPosition - 2, gapPosition + 2);
@@ -227,7 +244,8 @@ public class SpawnManager : MonoBehaviour
         {
             zOffset = 0;
             gapPosition = Random.Range(0, 5);
-            for (int i = 0; i < Random.Range(2, 5); i++)
+            sequenceLength = Random.Range(2, 5);
+            for (int i = 0; i < sequenceLength; i++)
             {
                 if (Random.Range(0, 2) == 0)
                 {
@@ -237,7 +255,12 @@ public class SpawnManager : MonoBehaviour
                 {
                     laserPrefab = laserSetPrefabs[gapPosition + 5];
                 }
-                Instantiate(laserPrefab, new Vector3(laserPrefab.transform.position.x, laserPrefab.transform.position.y, laserPrefab.transform.position.z - zOffset), laserPrefab.transform.rotation);
+                GameObject currentSegment = Instantiate(laserPrefab, new Vector3(laserPrefab.transform.position.x, laserPrefab.transform.position.y, laserPrefab.transform.position.z - zOffset), laserPrefab.transform.rotation);
+                waveEndTrigger = currentSegment.transform.Find("WaveTrigger").gameObject;
+                if (i < sequenceLength - 1)
+                {
+                    waveEndTrigger.SetActive(false);
+                }
                 // First wave (4) -> 6.5; Last wave (21) -> 4.375; Minimum gap (28) -> 3.5
                 zOffset += Mathf.Max(5f + (1.5f - (waveNumber - 4) / 8f), 3.5f);
                 gapPosition = Random.Range(gapPosition - 2, gapPosition + 2);
@@ -256,10 +279,16 @@ public class SpawnManager : MonoBehaviour
         {
             zOffset = 0;
             gapPosition = Random.Range(0, 5);
-            for (int i = 0; i < Random.Range(2, 5); i++)
+            sequenceLength = Random.Range(2, 5);
+            for (int i = 0; i < sequenceLength; i++)
             {
                 laserPrefab = laserSetPrefabs[gapPosition + 10];
-                Instantiate(laserPrefab, new Vector3(laserPrefab.transform.position.x, laserPrefab.transform.position.y, laserPrefab.transform.position.z - zOffset), laserPrefab.transform.rotation);
+                GameObject currentSegment = Instantiate(laserPrefab, new Vector3(laserPrefab.transform.position.x, laserPrefab.transform.position.y, laserPrefab.transform.position.z - zOffset), laserPrefab.transform.rotation);
+                waveEndTrigger = currentSegment.transform.Find("WaveTrigger").gameObject;
+                if (i < sequenceLength - 1)
+                {
+                    waveEndTrigger.SetActive(false);
+                }
                 // First wave (54) -> 6.5; Minimum gap (102) -> 3.5
                 zOffset += Mathf.Max(5f + (1.5f - (waveNumber - 54) / 16f), 3.5f);
                 gapPosition = Random.Range(gapPosition - 2, gapPosition + 2);
@@ -278,7 +307,8 @@ public class SpawnManager : MonoBehaviour
         {
             zOffset = 0;
             gapPosition = Random.Range(0, 5);
-            for (int i = 0; i < Random.Range(2, 5); i++)
+            sequenceLength = Random.Range(2, 5);
+            for (int i = 0; i < sequenceLength; i++)
             {
                 if (Random.Range(0, 2) == 0)
                 {
@@ -288,7 +318,12 @@ public class SpawnManager : MonoBehaviour
                 {
                     laserPrefab = laserSetPrefabs[gapPosition + 10];
                 }
-                Instantiate(laserPrefab, new Vector3(laserPrefab.transform.position.x, laserPrefab.transform.position.y, laserPrefab.transform.position.z - zOffset), laserPrefab.transform.rotation);
+                GameObject currentSegment = Instantiate(laserPrefab, new Vector3(laserPrefab.transform.position.x, laserPrefab.transform.position.y, laserPrefab.transform.position.z - zOffset), laserPrefab.transform.rotation);
+                waveEndTrigger = currentSegment.transform.Find("WaveTrigger").gameObject;
+                if (i < sequenceLength - 1)
+                {
+                    waveEndTrigger.SetActive(false);
+                }
                 // First wave (43) -> 6.5; Minimum gap (91) -> 3.5
                 zOffset += Mathf.Max(5f + (1.5f - (waveNumber - 43) / 16f), 3.5f);
                 gapPosition = Random.Range(gapPosition - 2, gapPosition + 2);

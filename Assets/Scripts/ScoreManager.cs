@@ -5,7 +5,9 @@ using System.Collections;
 public class ScoreManager : MonoBehaviour
 {
     public TextMeshProUGUI scoreText;
+    public TextMeshProUGUI waveText;
     private int score;
+    private int wave;
     private bool isGameOver;
     private bool isPaused;
     
@@ -15,7 +17,9 @@ public class ScoreManager : MonoBehaviour
         isGameOver = false;
         isPaused = false;
         score = 0;
+        wave = 0;
         scoreText.text = "Score: " + score;
+        waveText.text = "Wave: " + wave;
         InvokeRepeating("ScoreTimer", 0, 1);
     }
 
@@ -37,6 +41,12 @@ public class ScoreManager : MonoBehaviour
     {
         score += scoreToAdd;
         scoreText.text = "Score: " + score;
+    }
+
+    public void IncrementWave()
+    {
+        wave++;
+        waveText.text = "Wave: " + wave;
     }
 
     public void StartGraze()
