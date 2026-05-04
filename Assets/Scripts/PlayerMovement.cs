@@ -32,6 +32,9 @@ public class PlayerMovement : MonoBehaviour
     public GameObject gameOverMenu;
     public Sprite[] loopSprites;
     public Sprite jumpSprite;
+    public Sprite grazeSprite;
+    public Sprite grazeJumpSprite;
+    public Sprite deathSprite;
     private SpriteRenderer spriteRend;
     
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -50,7 +53,7 @@ public class PlayerMovement : MonoBehaviour
     void Update()
     {
         // Player horizontal movement
-        if (!scoreManager.IsPaused())
+        if (!scoreManager.IsPaused() && !scoreManager.IsGameOver())
         {
             foreach (KeyCode key in keys_MoveLeft)
             {
@@ -96,12 +99,12 @@ public class PlayerMovement : MonoBehaviour
             {
                 spriteRend.sprite = loopSprites[1];
             }
-            else
+            else if (spriteRend.sprite == loopSprites[1])
             {
                 spriteRend.sprite = loopSprites[0];
             }
 
-            if (Random.Range(0, 3) == 0)
+            if (Random.Range(0, 2) == 0)
             {
                 spriteRend.flipX = !spriteRend.flipX;
             }
@@ -118,11 +121,18 @@ public class PlayerMovement : MonoBehaviour
     
     void OnCollisionEnter(Collision other)
     {
-        if (other.gameObject.CompareTag("Ground"))
+        if (other.gameObject.CompareTag("Ground") && !scoreManager.IsGameOver())
         {
             // The player falls to the ground
             isGrounded = true;
-            spriteRend.sprite = loopSprites[0];
+            if (spriteRend.sprite == grazeJumpSprite)
+            {
+                spriteRend.sprite = grazeSprite;
+            }
+            else
+            {
+                spriteRend.sprite = loopSprites[0];
+            }
         }
     }
 
@@ -134,15 +144,37 @@ public class PlayerMovement : MonoBehaviour
             scoreManager.SetGameOver();
             spawnManager.StopWaveSpawning();
             gameOverMenu.SetActive(true);
-            Destroy(gameObject);
+            CancelInvoke("AnimatePlayer");
+            StartCoroutine(DeathExplosion());
+        }
+        else if (other.gameObject.CompareTag("GrazeZone")  && !scoreManager.IsGameOver())
+        {
+            Time.timeScale = 0.65f;
+            if (!isGrounded)
+            {
+                spriteRend.sprite = grazeJumpSprite;
+            }
+            else
+            {
+                spriteRend.sprite = grazeSprite;
+            }
         }
     }
 
     void OnTriggerExit(Collider other)
     {
-        if (other.gameObject.CompareTag("GrazeZone"))
+        if (other.gameObject.CompareTag("GrazeZone") && !scoreManager.IsGameOver())
         {
+            Time.timeScale = 1f;
             scoreManager.StartGraze();
+            if (spriteRend.sprite == grazeJumpSprite)
+            {
+                spriteRend.sprite = jumpSprite;
+            }
+            else
+            {
+                spriteRend.sprite = loopSprites[0];
+            }
         }
     }
 
@@ -160,7 +192,14 @@ public class PlayerMovement : MonoBehaviour
         {
             transform.Translate(Vector3.up * ((float)transform.position.y + movementYMagnitude));
             isGrounded = false;
-            spriteRend.sprite = jumpSprite;
+            if (spriteRend.sprite == grazeSprite)
+            {
+                spriteRend.sprite = grazeJumpSprite;
+            }
+            else
+            {
+                spriteRend.sprite = jumpSprite;
+            }
         }
         else
         {
@@ -170,8 +209,22 @@ public class PlayerMovement : MonoBehaviour
             {
                 transform.Translate(Vector3.up * ((float)transform.position.y + movementYMagnitude));
                 isGrounded = false;
-                spriteRend.sprite = jumpSprite;
+                if (spriteRend.sprite == grazeSprite)
+                {
+                    spriteRend.sprite = grazeJumpSprite;
+                }
+                else
+                {
+                    spriteRend.sprite = jumpSprite;
+                }
             }
         }
+    }
+
+    IEnumerator DeathExplosion()
+    {
+        spriteRend.sprite = deathSprite;
+        yield return new WaitForSeconds(0.5f);
+        Destroy(gameObject);
     }
 }

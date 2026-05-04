@@ -9,10 +9,12 @@ public class PauseMenu : MonoBehaviour
     public GameObject firstSelectedButton;
     private ScoreManager scoreManager;
     private GameObject lastSelectedButton;
+    private AudioSource musicSource;
     
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        musicSource = GameObject.Find("Main Camera").GetComponent<AudioSource>();
         scoreManager = GameObject.Find("ScoreManager").GetComponent<ScoreManager>();
         pauseMenu.SetActive(false);
         Time.timeScale = 1;
@@ -51,6 +53,7 @@ public class PauseMenu : MonoBehaviour
         pauseMenu.SetActive(true);
         Time.timeScale = 0;
         scoreManager.SetPaused(true);
+        musicSource.Pause();
     }
 
     public void ResumeGame()
@@ -58,5 +61,6 @@ public class PauseMenu : MonoBehaviour
         pauseMenu.SetActive(false);
         Time.timeScale = 1;
         scoreManager.SetPaused(false);
+        musicSource.UnPause();
     }
 }
