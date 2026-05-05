@@ -1,5 +1,5 @@
-using System.Runtime.CompilerServices;
 using UnityEngine;
+using System.Collections;
 
 public class SpawnManager : MonoBehaviour
 {
@@ -7,7 +7,7 @@ public class SpawnManager : MonoBehaviour
     public GameObject[] laserSetPrefabs;
     private float[] spawnPositions = { -2.2f, -1.1f, 0f, 1.1f, 2.2f };
     private float startDelay = 1.2f;
-    private float waveRate = 2.5f;
+    private float delayBeforeNext;
     private int waveNumber;
     private int lastObstacle;
     private int waveType;
@@ -17,10 +17,11 @@ public class SpawnManager : MonoBehaviour
     void Start()
     {
         scoreManager = GameObject.Find("ScoreManager").GetComponent<ScoreManager>();
+        delayBeforeNext = 2.5f;
         waveNumber = 0;
         lastObstacle = -1;
         waveType = -1;
-        InvokeRepeating("RollRandomWave", startDelay, waveRate);
+        StartCoroutine(DelayBeforeNextSpawn(startDelay));
     }
 
     void RollRandomWave()
@@ -87,6 +88,11 @@ public class SpawnManager : MonoBehaviour
     {
         // Setting obstacle group to spawn
         GameObject obstaclePrefab;
+        if (delayBeforeNext > 2f && waveNumber > 0 && scoreManager.GetScore() > 0)
+        {
+            delayBeforeNext -= 0.25f / (scoreManager.GetScore() * 2f);
+        }
+        Debug.Log(delayBeforeNext);
         switch (waveType)
         {
             case 0:
@@ -173,6 +179,25 @@ public class SpawnManager : MonoBehaviour
                 break;
         }
         waveNumber++;
+        // Spawning laser/fire sequence
+        if (waveType == 2 || waveType == 3 || waveType == 6 || waveType == 9 || waveType == 20 || waveType == 21)
+        {
+            StartCoroutine(DelayBeforeNextSpawn(delayBeforeNext + 0.25f));
+        }
+        // Spawning button sequence
+        else if (waveType == 17 || waveType == 18)
+        {
+            StartCoroutine(DelayBeforeNextSpawn(2.5f));
+        }
+        // Spawning long button sequence
+        else if (waveType == 19)
+        {
+            StartCoroutine(DelayBeforeNextSpawn(3f));
+        }
+        else
+        {
+            StartCoroutine(DelayBeforeNextSpawn(delayBeforeNext));
+        }
     }
 
     void SpawnLaserSequence(int laserType)
@@ -337,6 +362,12 @@ public class SpawnManager : MonoBehaviour
                 }
             }
         }
+    }
+
+    IEnumerator DelayBeforeNextSpawn(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        RollRandomWave();
     }
 
     public void StopWaveSpawning()
